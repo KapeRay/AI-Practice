@@ -13,7 +13,7 @@ let borderPadding = borderUISize / 3;
 let keyF, keyR, keyLEFT, keyRIGHT;
 
 /* Chosen Mods
-*
+* Small Ship that moves "Fast" and gives 1000 points when hit 20
 *
 *
 *

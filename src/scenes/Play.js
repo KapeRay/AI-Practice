@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
         this.load.image('rocket', './assets/rocket.png');
+        this.load.image('fastboi', './assets/fast_boi.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
 
@@ -28,6 +29,8 @@ class Play extends Phaser.Scene {
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*8, borderUISize*8, 'spaceship', 0, 30).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*4 + borderPadding*4, 'spaceship', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+        // added small fast spaceship
+        this.crazyShip = new Fastboi(this, game.config.width, borderUISize*2 + borderPadding*8, 'fastboi', 0, 1000).setOrigin(0,0);
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -78,6 +81,7 @@ class Play extends Phaser.Scene {
             this.ship01.update();               // update spaceships (x3)
             this.ship02.update();
             this.ship03.update();
+            this.crazyShip.update();
         }
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -89,9 +93,15 @@ class Play extends Phaser.Scene {
             this.shipExplode(this.ship02);
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
+            console.log("We hit a ship");
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
+        if (this.checkCollision(this.p1Rocket, this.crazyShip)) {
+            console.log("We hit small ship");
+            this.p1Rocket.reset();
+            this.shipExplode(this.crazyShip);
+        }  
   
       
     }
@@ -99,6 +109,17 @@ class Play extends Phaser.Scene {
         // simple AABB checking
         if (rocket.x < ship.x + ship.width && 
             rocket.x + rocket.width > ship.x && 
+            rocket.y < ship.y + ship.height &&
+            rocket.height + rocket.y > ship. y) {
+                return true;
+        } else {
+            return false;
+        }
+    }
+    checkSmallCollision(rocket, ship) {
+        // simple AABB checking
+        if (rocket.x < ship.x + ship.width && 
+            rocket.x + rocket.width < ship.x && 
             rocket.y < ship.y + ship.height &&
             rocket.height + rocket.y > ship. y) {
                 return true;
