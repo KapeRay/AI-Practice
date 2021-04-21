@@ -1,6 +1,7 @@
-class Menu extends Phaser.Scene {
+
+class player2on extends Phaser.Scene {
     constructor() {
-        super("menuScene");
+        super("multiplayer");
     }
     preload() {
         // load audio
@@ -9,6 +10,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
     }
     create() {
+        console.log('have we made it to create?')
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -21,11 +23,11 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0,5);
-        this.add.text(game.config.width/2, game.config.height/2, 'Use <--> arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'For Multiplayer press the Up Arrow', menuConfig).setOrigin(0.5,-1);
+        this.add.text(game.config.width/2, game.config.height/2, 'To return to one player press the up arrow again', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Player 1 controls: A & D to move and F to fire', menuConfig).setOrigin(0.5,-1);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
+        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Player 2 controls: <- & -> to move and Space bar to fire', menuConfig).setOrigin(0.5,-1.5);
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press <- for Novice or -> for Expert', menuConfig).setOrigin(0.5);
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -56,7 +58,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyUP)) {
           // multiplayer activate
           this.sound.play('sfx_select');
-          this.scene.start('multiplayer');    
+          this.scene.start('menuScene');    
         }
       }
       

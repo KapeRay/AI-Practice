@@ -16,6 +16,8 @@ class Play extends Phaser.Scene {
     create() {
         // place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        //var rocket = this.physics.add.image(200, 300, 'rocket');
+        
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         // white borders
@@ -31,11 +33,29 @@ class Play extends Phaser.Scene {
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
         // added small fast spaceship
         this.crazyShip = new Fastboi(this, game.config.width, borderUISize*2 + borderPadding*8, 'fastboi', 0, 1000).setOrigin(0,0);
-        // define keys
+        
+        /*this.input.on('pointermove', function (pointer)
+        {
+
+            this.physics.moveToObject(rocket, pointer, 400);
+
+            Phaser.Utils.Array.Each(
+                this.physics.moveToObject,
+                this.physics,
+                pointer, 0);
+        }, this);
+        */
+        
+        // define 
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        
+        
         // animation config
         this.anims.create({
             key: 'explode',
@@ -93,12 +113,10 @@ class Play extends Phaser.Scene {
             this.shipExplode(this.ship02);
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
-            console.log("We hit a ship");
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
         if (this.checkCollision(this.p1Rocket, this.crazyShip)) {
-            console.log("We hit small ship");
             this.p1Rocket.reset();
             this.shipExplode(this.crazyShip);
         }  
