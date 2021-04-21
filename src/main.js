@@ -6,7 +6,7 @@ let config = {
       default: 'arcade',
     },
     */  
-    scene: [Menu, Play, player2on]
+    scene: [Menu, Play, Twoplayer, player2on]
   }
   
 let game = new Phaser.Game(config);
@@ -19,8 +19,8 @@ let keyF, keyR, keyLEFT, keyRIGHT;
 
 
 /* Chosen Mods
-* Small Ship that moves "Fast" and gives 1000 points when hit 20
-*
+* Small Ship that moves "Fast" and gives 1000 points when hit (20)
+* Implement a simultaneous two-player mode (30)
 *
 *
 *

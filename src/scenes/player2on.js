@@ -45,8 +45,9 @@ class player2on extends Phaser.Scene {
             superSpeed: 9,
             gameTimer: 60000    
           }
+          let multi = true;
           this.sound.play('sfx_select');
-          this.scene.start('playScene');    
+          this.scene.start('playScene2');    
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
           // hard mode
@@ -55,11 +56,13 @@ class player2on extends Phaser.Scene {
             superSpeed: 10,
             gameTimer: 45000    
           }
+          let multi = true;
           this.sound.play('sfx_select');
-          this.scene.start('playScene');    
+          this.scene.start('playScene2');    
         }
         if (Phaser.Input.Keyboard.JustDown(keyUP)) {
-          // multiplayer activate
+          // multiplayer deactivate
+          let multi = false;
           this.sound.play('sfx_select');
           this.scene.start('menuScene');    
         }
