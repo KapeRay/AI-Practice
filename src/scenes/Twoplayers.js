@@ -81,6 +81,8 @@ class Twoplayer extends Phaser.Scene {
         this.gameOver = false;
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
+        this.timeCounter = this.game.settings.gameTimer;
+        this.timer = this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, this.timeCounter, scoreConfig).setOrigin(-7,4);
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
@@ -88,7 +90,7 @@ class Twoplayer extends Phaser.Scene {
         }, null, this);
 
     }
-    update() {
+    update(time, delta) {
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -104,6 +106,8 @@ class Twoplayer extends Phaser.Scene {
             this.ship02.update();
             this.ship03.update();
             this.crazyShip.update();
+            this.timeCounter = this.game.settings.gameTimer/1000 - Math.floor(time/1000);
+            this.timer.text = this.timeCounter;
         }
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {

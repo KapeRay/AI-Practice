@@ -31,6 +31,7 @@ class Menu extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.menuistrue = true;
     }
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
@@ -38,9 +39,11 @@ class Menu extends Phaser.Scene {
           game.settings = {
             spaceshipSpeed: 3,
             superSpeed: 9,
-            gameTimer: 60000    
+            gameTimer: 10000    
           }
           let multi = false;
+          this.menuistrue = false;
+          
           this.sound.play('sfx_select');
           this.scene.start('playScene');    
         }
@@ -53,7 +56,8 @@ class Menu extends Phaser.Scene {
           }
           let multi = false;
           this.sound.play('sfx_select');
-          this.scene.start('playScene');    
+          this.scene.start('playScene');
+          this.menuistrue = false;    
         }
         if (Phaser.Input.Keyboard.JustDown(keyUP)) {
           // multiplayer activate

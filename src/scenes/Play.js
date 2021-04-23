@@ -12,12 +12,12 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
 
       }
-      
+        
     create() {
         // place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         //var rocket = this.physics.add.image(200, 300, 'rocket');
-        
+        localStorage.setItem('totalScore',game.scene.score);
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         // white borders
@@ -34,17 +34,8 @@ class Play extends Phaser.Scene {
         // added small fast spaceship
         this.crazyShip = new Fastboi(this, game.config.width, borderUISize*2 + borderPadding*8, 'fastboi', 0, 1000).setOrigin(0,0);
         
-        /*this.input.on('pointermove', function (pointer)
-        {
-
-            this.physics.moveToObject(rocket, pointer, 400);
-
-            Phaser.Utils.Array.Each(
-                this.physics.moveToObject,
-                this.physics,
-                pointer, 0);
-        }, this);
-        */
+        
+        
         
         // define 
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -54,7 +45,7 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        
+
         
         // animation config
         this.anims.create({
@@ -76,49 +67,77 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.highScore = 0;
+        this.highestScore = this.add.text(borderUISize + borderPadding + 225, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
         // GAME OVER flag
         this.gameOver = false;
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
+        this.timeCounter = this.game.settings.gameTimer;
+        this.timer = this.add.text(borderUISize + borderPadding + 400, borderUISize + borderPadding*2, this.timeCounter, scoreConfig);
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+
+                        
             this.gameOver = true;
         }, null, this);
-
+        
+        
     }
-    update() {
+    update(time, delta) {
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
+            //this.timeCounter.destroy();
         }
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
+            //this.timeCounter.reset();
+        }
+        if(this.gameOver){
+            if(this.highScore < this.p1Score){
+                this.highScore = this. p1Score;
+                this.highestScore.text = this.highScore;
+                game.scene.score = parseInt(localStorage.getItem('totalScore')) || this.highScore;
+
+            }
         }
         this.starfield.tilePositionX -= 2;
-        if(!this.gameOver){
+        if(!this.gameOver && !this.menuistrue){
             this.p1Rocket.update();
             this.ship01.update();               // update spaceships (x3)
             this.ship02.update();
             this.ship03.update();
             this.crazyShip.update();
+            this.timeCounter = this.clock.getOverallRemainingSeconds();
+            this.timeCounter = Math.floor(this.timeCounter);
+            this.timer.text = this.timeCounter;   
+            
         }
+        
+        
+        
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
+            //this.clock += 1000;
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship02);
+            //this.clock += 1000;
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+            //this.clock += 1000;
         }
         if (this.checkCollision(this.p1Rocket, this.crazyShip)) {
             this.p1Rocket.reset();
             this.shipExplode(this.crazyShip);
+            //this.clock += 1000;
         }  
   
       
