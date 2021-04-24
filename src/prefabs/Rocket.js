@@ -16,18 +16,18 @@ class Rocket extends Phaser.Physics.Arcade.Sprite {
       game.input.mousePointer.x;
       //game.input.mousePointer.y;
 
-      if(!this.isFiring) {
+      //if(!this.isFiring) {
         //if(game.input.activePointer.leftButtonDown() && this.x >= borderUISize + this.width) {
-          this.x = game.input.mousePointer.x;
+        this.x = game.input.mousePointer.x;
         //}
         //else if(game.input.activePointer.rightButtonDown() && this.x <= game.config.width - borderUISize - this.width) {
         //  this.x += this.moveSpeed;
         //}
     
-      }
+      //}
       
       // fire button
-      if(game.input.activePointer.leftButtonDown() && game.input.activePointer.rightButtonDown() && !this.isFiring) {
+      if(game.input.activePointer.leftButtonDown() && !this.isFiring) {
         this.isFiring = true;
         this.sfxRocket.play();  // play sfx
       }

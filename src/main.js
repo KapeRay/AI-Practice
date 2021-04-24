@@ -25,7 +25,6 @@ this.menuistrue = true;
 * Implement a simultaneous two-player mode (30)
 * Implemented time showing on screen (10)
 * Implemented mouse controls (20)
-*
-*
-*
+* Imlemented increasing timer when spaceships are hit (20)
+* Rocket Can still be control when fired (5)
 */
