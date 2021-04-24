@@ -39,7 +39,7 @@ class Menu extends Phaser.Scene {
           game.settings = {
             spaceshipSpeed: 3,
             superSpeed: 9,
-            gameTimer: 1000    
+            gameTimer: 60000    
           }
           let multi = false;
           this.menuistrue = false;
