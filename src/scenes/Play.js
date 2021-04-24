@@ -83,6 +83,7 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
         */
+        
         this.timeRemain = this.game.settings.gameTimer;
         
     }
@@ -196,18 +197,16 @@ class Play extends Phaser.Scene {
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
-            align: 'right',
+            align: 'center',
             padding: {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 100
+            fixedWidth: 570
         }
         if(this.timeRemain <= 0){
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
-
-                        
             this.gameOver = true;
         }
     }
