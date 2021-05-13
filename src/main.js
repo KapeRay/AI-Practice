@@ -14,10 +14,12 @@ let game = new Phaser.Game(config);
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 // reserve keyboard 
-let keyA, keyD, keySPACE, keyUP;
+let keyA, keyD, keySPACE, keyUP, keyDOWN;
 let keyF, keyR, keyLEFT, keyRIGHT;
 
 this.menuistrue = true;
+
+moving = false;
 
 
 /* Chosen Mods
