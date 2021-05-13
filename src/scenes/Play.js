@@ -21,21 +21,21 @@ class Play extends Phaser.Scene {
         this.physics.add.existing(this.player);
         this.player.body.collideWorldBounds = true;
         // adding blockades
-        this.squareGroup = this.physics.add.group();
-        this.squareGroup.runChildUpdate = true;
+        
+        //this.squareGroup.runChildUpdate = true;
         this.blockingSquare1 = this.add.rectangle(150, 100, 100, 100, 0x6666ff).setOrigin(0,0);
         this.blockingSquare2 = this.add.rectangle(400, 250, 100, 100, 0x6666ff).setOrigin(0,0);
         this.blockingSquare3 = this.add.rectangle(100, 300, 100, 100, 0x6666ff).setOrigin(0,0);
         this.blockingSquare4 = this.add.rectangle(400, 50, 100, 100, 0x6666ff).setOrigin(0,0);
 
-        
-        this.squareGroup.add(this.blockingSquare1);
-        this.squareGroup.add(this.blockingSquare2);
-        this.squareGroup.add(this.blockingSquare3);
-        this.squareGroup.add(this.blockingSquare4);
-        this.physics.add.existing(this.squareGroup);
+        this.squareGroup = this.physics.add.group([this.blockingSquare1, this.blockingSquare2, this.blockingSquare3, this.blockingSquare4]);
+        // this.squareGroup.add(this.blockingSquare1);
+        // this.squareGroup.add(this.blockingSquare2);
+        // this.squareGroup.add(this.blockingSquare3);
+        // this.squareGroup.add(this.blockingSquare4);
+        //this.physics.add.existing(this.squareGroup);
 
-        this.squareGroup.body.immovable = true;
+        this.squareGroup.immovable = true;
         
         //this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
         // add spaceships (x3)
@@ -46,12 +46,13 @@ class Play extends Phaser.Scene {
         this.crazyShip = this.add.rectangle(game.config.width / 2, game.config.height / 2, 20, 20, 0xFFFFFF).setOrigin(0, 0);
         this.physics.add.existing(this.crazyShip);
 
-        this.crazyShip.body.collideWorldBounds = true;
+        this.crazyShip.body.collideWorldBounds = false;
 
         this.physics.add.collider(this.squareGroup, this.crazyShip);
-        this.physics.add.collider(this.player, this.squareGroup, (p,e) => {
-            console.log('Player collided with enemy: ', e);
-        });
+
+        //this.physics.add.collider(this.player, this.squareGroup, (p,e) => {
+        //    console.log('Player collided with enemy: ', e);
+        //});
         
         //this.physics.add.collider(this.squareGroup, this.player);        
         
@@ -121,6 +122,13 @@ class Play extends Phaser.Scene {
             if(keyDOWN.isDown){
                 this.player.y += 1;
             }
+            this.physics.add.collider(this.squareGroup, this.crazyShip);
+        
+            this.physics.add.collider(this.squareGroup, this.player);
+            
+            //this.physics.add.collider(this.crazyShip, this.player, (p,e) => {
+            //    console.log('Player collided with enemy: ', e);
+            //});
             //this.p1Rocket.update();
             //this.ship01.update();               // update spaceships (x3)
             //this.ship02.update();
@@ -164,7 +172,7 @@ class Play extends Phaser.Scene {
 
         if(this.physics.collide(this.squareGroup, this.player)) {
             console.log("we are colliding");
-            this.player.body.bounce.set(1);
+            this.player.body.bounce.set(100);
             //this.player.body.immovable = true;
         }
         
